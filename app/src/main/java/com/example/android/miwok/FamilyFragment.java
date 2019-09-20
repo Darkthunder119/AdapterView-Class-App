@@ -1,6 +1,7 @@
 package com.example.android.miwok;
 
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -46,14 +47,12 @@ public class FamilyFragment extends Fragment {
                         releaseMediaPlayer();
                     }
                     else if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
-                        mMediaPlayer.pause();
-                        mMediaPlayer.seekTo(0);
 
+                        releaseMediaPlayer();
                         // Pause playback
                     } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
 
-                        mMediaPlayer.pause();
-                        mMediaPlayer.seekTo(0);
+                        releaseMediaPlayer();
                         // Pause since audio translations need to be audible
                     } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
                         mMediaPlayer.start();
@@ -68,7 +67,6 @@ public class FamilyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.word_list, container, false);
-
         // Create a list of words
         final ArrayList<Word> words = new ArrayList<Word>();
         words.add(new Word("father", "әpә", R.drawable.family_father, R.raw.family_father));
@@ -111,7 +109,7 @@ public class FamilyFragment extends Fragment {
 
                 // Get the {@link Word} object at the given position the user clicked on
                 Word word = words.get(position);
-                mAudioManager = (AudioManager)getActivity().getSystemService(FamilyActivity.AUDIO_SERVICE);
+                mAudioManager = (AudioManager)getActivity().getSystemService(Context.AUDIO_SERVICE);
 
                 int audioFocus = mAudioManager.requestAudioFocus(afChangeListener,
                         // Use the music stream.
@@ -156,6 +154,5 @@ public class FamilyFragment extends Fragment {
 
         }
     }
-
 
 }

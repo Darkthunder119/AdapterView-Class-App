@@ -1,6 +1,7 @@
 package com.example.android.miwok;
 
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -46,14 +47,13 @@ public class ColorsFragment extends Fragment {
                         releaseMediaPlayer();
                     }
                     else if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
-                        mMediaPlayer.pause();
-                        mMediaPlayer.seekTo(0);
 
+                        releaseMediaPlayer();
                         // Pause playback
                     } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
 
-                        mMediaPlayer.pause();
-                        mMediaPlayer.seekTo(0);
+
+                        releaseMediaPlayer();
                         // Pause since audio translations need to be audible
                     } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
                         mMediaPlayer.start();
@@ -104,7 +104,7 @@ public class ColorsFragment extends Fragment {
 
                 // Get the {@link Word} object at the given position the user clicked on
                 Word word = words.get(position);
-                mAudioManager = (AudioManager)getActivity().getSystemService(ColorsActivity.AUDIO_SERVICE);
+                mAudioManager = (AudioManager)getActivity().getSystemService(Context.AUDIO_SERVICE);
 
                 int audioFocus = mAudioManager.requestAudioFocus(afChangeListener,
                         // Use the music stream.
@@ -150,4 +150,6 @@ public class ColorsFragment extends Fragment {
 
         }
     }
+
+
 }
